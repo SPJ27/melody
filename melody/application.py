@@ -6,32 +6,54 @@ routes_import = importlib.import_module('routes')
 print(routes_import.routes)
 routes = routes_import.routes
 
+from werkzeug.routing import Map, Rule
+
+route_map = Map([
+    Rule(route, endpoint=route) for route in routes.keys()
+    ])
+
 async def app(scope, receive, send):
+    
+    print('map', route_map)
+    adapter = route_map.bind('http://127.0.0.1:8000/')
+
     if scope['type'] != 'http':
         return
 
     path = scope['path']
-    print('path', path)
-    if path in routes:
-        req_payload = {
+    try:
+        endpoint, params = adapter.match(path)
+    except:
+        await send({
+                    "type": "http.response.start",
+                    "status": 404,
+                    "headers": [
+                        [b"content-type", b"text/plain"],
+                    ],
+                })
+        
+        await send({
+                    "type": "http.response.body",
+                    "body": b"Not Found",
+                })
+    req_payload = {
             "path": path,
             "method": scope["method"],
             "query": parse_qs(scope["query_string"].decode('utf-8')),
             "headers": scope["headers"],
+            "params": params
             # "body": scope["body"],
             # "cookies": scope["cookies"],
             # "ip": scope["ip"]
         }
-        print(routes, path)
-        data = routes[path](req_payload)
-        print('data', data)
-        if isinstance(data, dict):
-            return_data = json.dumps(data).encode()
-            type = b"application/json"  
-        else:
-            return_data = str(data).encode()
-            type = b"text/plain"
-        await send({
+    data = routes[endpoint](req_payload)
+    if isinstance(data, dict):
+        return_data = json.dumps(data).encode()
+        type = b"application/json"  
+    else:
+        return_data = str(data).encode()
+        type = b"text/plain"
+    await send({
             "type": "http.response.start",
             "status": 200,
             "headers": [
@@ -39,21 +61,9 @@ async def app(scope, receive, send):
             ],
         })
 
-        await send({
+    await send({
             "type": "http.response.body",
             "body": return_data,
         })
-    else:
-        await send({
-            "type": "http.response.start",
-            "status": 404,
-            "headers": [
-                [b"content-type", b"text/plain"],
-            ],
-        })
-
-        await send({
-            "type": "http.response.body",
-            "body": b"Not Found",
-        })
+        
   

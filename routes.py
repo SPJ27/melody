@@ -5,10 +5,10 @@ def index(req):
 
 def time_api(req):
     if req["method"] == 'GET':
-        return {"time":time.localtime()}
+        return {"time":time.localtime(), "id": req["params"]["id"]}
     return {"error": "you cant do this little guy"}
 
 routes = {
     '/': index,
-    '/api/time/:id': time_api 
+    '/api/time/<int:id>': time_api 
 }

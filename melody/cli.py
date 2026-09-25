@@ -4,7 +4,6 @@ from pathlib import Path
 root = Path.cwd()
 sys.path.insert(0, str(root))
 
-from melody.routes import update_routes
 
 def main():
     
