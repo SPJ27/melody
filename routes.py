@@ -1,7 +1,8 @@
 import time
+from melody.render import render
 
 def index(req):
-    return "<a href='#'>hello</a>"
+    return render('index.html', {'name': 'spj'}), 400
 
 def time_api(req):
     if req["method"] == 'GET':
