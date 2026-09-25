@@ -1,17 +1,18 @@
-from .test import routes
 import json
 from urllib.parse import parse_qs
+import importlib
+
+routes_import = importlib.import_module('routes')
+print(routes_import.routes)
+routes = routes_import.routes
 
 async def app(scope, receive, send):
-
     if scope['type'] != 'http':
         return
 
     path = scope['path']
-
-    matched_route = [route for route in routes if route.startswith(path)]
-    
-    if matched_route:
+    print('path', path)
+    if path in routes:
         req_payload = {
             "path": path,
             "method": scope["method"],
@@ -21,8 +22,9 @@ async def app(scope, receive, send):
             # "cookies": scope["cookies"],
             # "ip": scope["ip"]
         }
-        
-        data = routes[matched_route[0]](req_payload)
+        print(routes, path)
+        data = routes[path](req_payload)
+        print('data', data)
         if isinstance(data, dict):
             return_data = json.dumps(data).encode()
             type = b"application/json"  

@@ -1,7 +1,7 @@
 import time
 
 def index(req):
-    return {"hello": req["path"]}
+    return {"hello": req["method"]}
 
 def time_api(req):
     if req["method"] == 'GET':
