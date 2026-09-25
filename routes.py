@@ -1,7 +1,7 @@
 import time
 
 def index(req):
-    return "<p>hi</p>"
+    return "<a href='#'>hello</a>"
 
 def time_api(req):
     if req["method"] == 'GET':
@@ -11,5 +11,4 @@ def time_api(req):
 routes = {
     '/': index,
     '/api/time/<int:id>': time_api, 
-    '/api/time/<int:id>/new/<string:name>': time_api 
 }

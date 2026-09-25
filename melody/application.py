@@ -51,6 +51,7 @@ async def app(scope, receive, send):
             # "ip": scope["ip"]
         }
     data = routes[endpoint](req_payload)
+    data, status = data if isinstance(data, tuple) else (data, 200)
 
     if isinstance(data, dict):
         return_data = json.dumps(data).encode()
@@ -63,7 +64,7 @@ async def app(scope, receive, send):
         type = b"text/plain"
     await send({
             "type": "http.response.start",
-            "status": 200,
+            "status": status,
             "headers": [
                 [b"content-type", type],
             ],
