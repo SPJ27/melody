@@ -1,6 +1,14 @@
+import time
+
 def index(req):
-    return "hello melody"
+    return {"hello": req["path"]}
+
+def time_api(req):
+    if req["method"] == 'GET':
+        return {"time":time.localtime()}
+    return {"error": "you cant do this little guy"}
 
 routes = {
-    '/': index
+    '/': index,
+    '/api/time/:id': time_api 
 }
