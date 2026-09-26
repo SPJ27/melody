@@ -43,14 +43,21 @@ async def app(scope, receive, send):
         return
   
     data =  routes[endpoint](Request(scope, params))
-    res_data, res_type, status = parse_response(data)
+    res_data, res_type, status, res_headers, cookies = parse_response(data)
+    headers = [[b"content-type", res_type]]
+    print('res', res_headers)
 
+    for key, value in res_headers.items():
+            print('p', key)
+            headers.append([key.lower().encode(), str(value).encode()])
+
+    for value in cookies:
+            headers.append(['Set-Cookie', value])
+    
     await send({
             "type": "http.response.start",
             "status": status,
-            "headers": [
-                [b"content-type", res_type],
-            ],
+            "headers": headers
         })
 
     await send({

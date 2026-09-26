@@ -24,3 +24,7 @@ use render(filename, (optional) variables dictionary), (optional) status code to
 either return a dict, str or str with html. melody will map it automatically to json, text or html.
 for more control over the response - use Response(data, response_type=, status=)
 by default, the response type is autodetected, and status is 200
+to send cookies, send it as cookies=[cookie(name='session_id', value='abc')]
+
+6. render templates with response()
+you can use response(render('index.html'), status=201)
