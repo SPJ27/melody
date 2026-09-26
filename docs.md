@@ -17,3 +17,10 @@ def index(req):
 3. templating
 uses jinja2 templating in /templates/ folder in the root dir\
 use render(filename, (optional) variables dictionary), (optional) status code to use templating
+
+4. request
+
+5. response
+either return a dict, str or str with html. melody will map it automatically to json, text or html.
+for more control over the response - use Response(data, response_type=, status=)
+by default, the response type is autodetected, and status is 200

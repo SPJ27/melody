@@ -10,6 +10,10 @@ class Request:
         self.params = params
         self.scope = scope
         self.cookies = {}
+        
         for cookie in self.headers.get('cookie', '').split(';'):
+            if cookie == '':
+                continue
+            print('cookie', cookie)
             key, value = cookie.strip().split('=')
             self.cookies[key] = value

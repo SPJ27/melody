@@ -1,15 +1,16 @@
 from melody.render import render
+from melody import Response
 
 def index(req):
-    return {"method": req.cookies}
+    return Response({'hello': 'world'}, status=401)
 
 def new(req):
     try:
         return {"success": True}
     except:
-        return {"success": False, "message": "Incomplete Data"}, 400
+        return {"success": False, "message": "Incomplete Data"}
 
 routes = {
-    '/<int:id>/hello/<string:world>': index,
+    '/': index,
     '/new': new 
 }

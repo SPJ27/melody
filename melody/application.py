@@ -2,6 +2,7 @@ import json
 import importlib
 from bs4 import BeautifulSoup
 from melody.request import Request
+from .response import parse_response
 
 routes_import = importlib.import_module('routes')
 print(routes_import.routes)
@@ -41,29 +42,20 @@ async def app(scope, receive, send):
                 })
         return
   
-    data = routes[endpoint](Request(scope, params))
-    data, status = data if isinstance(data, tuple) else (data, 200)
+    data =  routes[endpoint](Request(scope, params))
+    res_data, res_type, status = parse_response(data)
 
-    if isinstance(data, dict):
-        return_data = json.dumps(data).encode()
-        type = b"application/json"  
-    elif is_html(data):
-        return_data = str(data).encode()
-        type=b"text/html"
-    else:
-        return_data = str(data).encode()
-        type = b"text/plain"
     await send({
             "type": "http.response.start",
             "status": status,
             "headers": [
-                [b"content-type", type],
+                [b"content-type", res_type],
             ],
         })
 
     await send({
             "type": "http.response.body",
-            "body": return_data,
+            "body": res_data,
         })
     return
   
