@@ -1,15 +1,15 @@
-import time
 from melody.render import render
 
 def index(req):
-    return render('index.html', {'name': 'spj'}), 400
+    return {"method": req.cookies}
 
-def time_api(req):
-    if req["method"] == 'GET':
-        return {"time":time.localtime(), "params": req["params"]}
-    return {"error": "you cant do this little guy"}
+def new(req):
+    try:
+        return {"success": True}
+    except:
+        return {"success": False, "message": "Incomplete Data"}, 400
 
 routes = {
-    '/': index,
-    '/api/time/<int:id>': time_api, 
+    '/<int:id>/hello/<string:world>': index,
+    '/new': new 
 }

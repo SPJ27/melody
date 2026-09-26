@@ -1,7 +1,7 @@
 import json
-from urllib.parse import parse_qs
 import importlib
 from bs4 import BeautifulSoup
+from melody.request import Request
 
 routes_import = importlib.import_module('routes')
 print(routes_import.routes)
@@ -40,17 +40,8 @@ async def app(scope, receive, send):
                     "body": b"Not Found",
                 })
         return
-    req_payload = {
-            "path": path,
-            "method": scope["method"],
-            "query": parse_qs(scope["query_string"].decode('utf-8')),
-            "headers": scope["headers"],
-            "params": params
-            # "body": scope["body"],
-            # "cookies": scope["cookies"],
-            # "ip": scope["ip"]
-        }
-    data = routes[endpoint](req_payload)
+  
+    data = routes[endpoint](Request(scope, params))
     data, status = data if isinstance(data, tuple) else (data, 200)
 
     if isinstance(data, dict):
