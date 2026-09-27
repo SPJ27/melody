@@ -1,0 +1,5 @@
+uvicorn
+werkzeug
+beautifulsoup4
+Jinja2
+beautifulsoup4

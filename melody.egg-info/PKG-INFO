@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: melody
+Version: 0.1.0
+Summary: A Python webframework to quickly build web apps
+Requires-Dist: uvicorn
+Requires-Dist: werkzeug
+Requires-Dist: beautifulsoup4
+Requires-Dist: Jinja2
+Requires-Dist: beautifulsoup4

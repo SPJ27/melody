@@ -7,7 +7,7 @@ def is_html(text):
 class Response:
     def __init__(self, data, response_type=None, status=200, headers={}, cookies={}):
         if response_type is not None:
-            self.response_type = response_type
+            self.response_type = str(response_type).encode()
             self.response_data = (
             data if isinstance(data, bytes)
             else str(data).encode()
@@ -32,3 +32,6 @@ def parse_response(response):
     temp_response = Response(response)
     print('t', temp_response.cookies)
     return temp_response.response_data, temp_response.response_type, temp_response.status, temp_response.headers, temp_response.cookies
+
+def redirect(path):
+    return Response('', status=302, headers={'Location': path})

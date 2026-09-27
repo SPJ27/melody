@@ -1,5 +1,0 @@
-Jinja2
-bs4
-requests
-uvicorn
-werkzeug
