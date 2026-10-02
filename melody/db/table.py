@@ -5,17 +5,27 @@ class Database:
         self.db = sqlite3.connect(f'{name}.db')
 
 class Table:
-    def __init__(self, connection):
-        self.cursor = connection.cursor()
+    connection = None
+    table_name = None
+    columns = {}
 
-    # Write the SQL command to create the Students table
-        create_table_query = '''
-    CREATE TABLE IF NOT EXISTS Students (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        age INTEGER,
-        email TEXT
-    );
-    '''
-        self.cursor.execute(create_table_query)
-        connection.commit()
+    @classmethod
+    def create(cls):
+        
+        columns = ['id INTEGER PRIMARY KEY AUTOINCREMENT']
+        for field, field_type in cls.columns.items():
+            sql_type = {
+                str: 'TEXT',
+                int: 'INTEGER',
+                float: 'REAL',
+                bool: 'BOOL'
+            }.get(field_type, 'TEXT')
+            columns.append(f'{field} {sql_type}')
+        query = f'''
+                CREATE TABLE IF NOT EXISTS {cls.table} (
+                {columns.join(', ')}
+            );
+        
+                '''
+        
+        

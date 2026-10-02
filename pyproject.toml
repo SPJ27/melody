@@ -12,7 +12,8 @@ dependencies = [
     "werkzeug",
     "beautifulsoup4",
     "Jinja2",
-"beautifulsoup4"
+"beautifulsoup4",
+"dotenv"
 ]
 
 [project.scripts]
