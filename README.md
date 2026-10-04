@@ -4,6 +4,14 @@ Melody is a Python web framework designed to let you build web applications as q
 
 Melody provides routing, request and response handling, environment variables, a CLI, templates, and a simple database layer out of the box.
 
+## Example
+
+Code: 
+![alt text](image-1.png)
+
+Output:
+![alt text](image.png)
+
 ## Features
 
 * Minimal/Almost no boilerplate
