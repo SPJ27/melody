@@ -18,7 +18,7 @@ def is_html(text):
     return bool(BeautifulSoup(text, "html.parser").find())
 
 async def app(scope, receive, send):
-    adapter = route_map.bind('http://127.0.0.1:8000/')
+    adapter = route_map.bind('')
     if scope['type'] != 'http':
         return
 

@@ -4,6 +4,7 @@ melody/__init__.py
 melody/application.py
 melody/cli.py
 melody/cookie.py
+melody/environment.py
 melody/render.py
 melody/request.py
 melody/response.py
@@ -14,3 +15,5 @@ melody.egg-info/dependency_links.txt
 melody.egg-info/entry_points.txt
 melody.egg-info/requires.txt
 melody.egg-info/top_level.txt
+melody/db/__init__.py
+melody/db/table.py

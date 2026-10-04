@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
-Name: melody
-Version: 0.1.0
+Name: melody-web
+Version: 0.1.2
 Summary: A Python web framework to quickly build web apps
 Requires-Python: >=3.10
 Requires-Dist: uvicorn

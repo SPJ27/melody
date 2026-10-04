@@ -3,18 +3,18 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "melody"
-version = "0.1.0"
-description = "A Python webframework to quickly build web apps"
+name = "melody-web"
+version = "0.1.2"
+description = "A Python web framework to quickly build web apps"
+requires-python = ">=3.10"
 
 dependencies = [
     "uvicorn",
     "werkzeug",
     "beautifulsoup4",
     "Jinja2",
-"beautifulsoup4",
-"dotenv",
-"peewee
+    "python-dotenv",
+    "peewee",
 ]
 
 [project.scripts]
