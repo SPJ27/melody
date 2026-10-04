@@ -11,7 +11,7 @@ routes = routes_import.routes
 from werkzeug.routing import Map, Rule
 
 route_map = Map([
-    Rule(route.split(' ')[-1], endpoint=route.split(' ')[-1]) for route in routes.keys()
+    Rule(route.split(' ')[1] if ' ' in route else route, endpoint=  route, methods=[route.split(' ')[0]] if ' ' in route else None) for route in routes.keys()
     ])
 
 def is_html(text):
@@ -24,7 +24,7 @@ async def app(scope, receive, send):
 
     path = scope['path']
     try:
-        endpoint, params = adapter.match(path)
+        endpoint, params = adapter.match(path, method=scope['method'])
     except:
         await send({
                     "type": "http.response.start",
