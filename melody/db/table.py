@@ -1,31 +1,26 @@
-import sqlite3
+from peewee import ModelBase, SqliteDatabase, Model, CharField, IntegerField, BooleanField
+
 
 class Database:
-    def __init__(self, name='sqlite3'):
-        self.db = sqlite3.connect(f'{name}.db')
+    current = None
 
-class Table:
-    connection = None
-    table_name = None
-    columns = {}
+    def __init__(self, name="sqlite3.db"):
+        self.db = SqliteDatabase(name)
+        Database.current = self
 
-    @classmethod
-    def create(cls):
-        
-        columns = ['id INTEGER PRIMARY KEY AUTOINCREMENT']
-        for field, field_type in cls.columns.items():
-            sql_type = {
-                str: 'TEXT',
-                int: 'INTEGER',
-                float: 'REAL',
-                bool: 'BOOL'
-            }.get(field_type, 'TEXT')
-            columns.append(f'{field} {sql_type}')
-        query = f'''
-                CREATE TABLE IF NOT EXISTS {cls.table} (
-                {columns.join(', ')}
-            );
-        
-                '''
-        
-        
+    def register(self, tables):
+        self.db.create_tables(tables)
+
+
+class TableMeta(ModelBase):
+    def __new__(cls, name, bases, attrs):
+        table = super().__new__(cls, name, bases, attrs)
+
+        if Database.current:
+            table._meta.database = Database.current.db
+
+        return table
+
+
+class Table(Model, metaclass=TableMeta):
+    pass

@@ -1,1 +1,1 @@
-from .table import Table, Database
+from .table import Database, Table, CharField, IntegerField, BooleanField

@@ -11,16 +11,14 @@ routes = routes_import.routes
 from werkzeug.routing import Map, Rule
 
 route_map = Map([
-    Rule(route, endpoint=route) for route in routes.keys()
+    Rule(route.split(' ')[-1], endpoint=route.split(' ')[-1]) for route in routes.keys()
     ])
 
 def is_html(text):
     return bool(BeautifulSoup(text, "html.parser").find())
 
 async def app(scope, receive, send):
-    print('map', route_map)
     adapter = route_map.bind('http://127.0.0.1:8000/')
-
     if scope['type'] != 'http':
         return
 
